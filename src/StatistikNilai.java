@@ -30,5 +30,52 @@ public class StatistikNilai {
 
         System.out.println();
         System.out.println("Nilai tersimpan : " + daftar);
+
+        // Kasus tidak ada nilai sah: cetak pesan, bukan error.
+        // Harus dicek sebelum daftar.get(0) di bawah, karena get(0) pada daftar kosong error.
+        if (daftar.isEmpty()) {
+            System.out.println();
+            System.out.println("Tidak ada nilai yang dimasukkan.");
+            return;
+        }
+
+        // Rata-rata: jumlahkan semua nilai, lalu bagi dengan banyaknya nilai
+        int total = 0;
+        for (int n : daftar) {
+            total += n;
+        }
+        double rataRata = (double) total / daftar.size();
+
+
+        // Tertinggi dan terendah dimulai dari nilai pertama di daftar (indeks 0),
+        // bukan dari 0 atau 100. Kalau terendah dimulai dari 0, tidak akan pernah
+        // tergantikan karena tidak ada nilai di bawah 0. Kalau tertinggi dimulai
+        // dari 100, sama masalahnya. Nilai pertama pasti anggota daftar, jadi
+        // aman dipakai sebagai titik awal untuk keduanya.
+        int tertinggi = daftar.get(0);
+        int terendah = daftar.get(0);
+        for (int n : daftar) {
+            if (n > tertinggi) tertinggi = n;
+            if (n < terendah) terendah = n;
+        }
+
+        // Putaran kedua untuk "di atas rata-rata". Rata-rata baru diketahui setelah
+        // semua nilai selesai dibaca dan dijumlahkan. Saat nilai pertama dibaca,
+        // rata-ratanya belum ada, jadi perbandingan tidak bisa dilakukan di
+        // putaran pertama (saat membaca).
+        int diAtasRataRata = 0;
+        for (int n : daftar) {
+            if (n > rataRata) diAtasRataRata++;
+        }
+
+        System.out.println();
+        System.out.println("Nilai tersimpan : " + daftar);
+        System.out.println("Jumlah          : " + daftar.size());
+        System.out.println("Rata-rata       : "
+                + String.format(new Locale("id", "ID"), "%.2f", rataRata));
+        System.out.println("Tertinggi       : " + tertinggi);
+        System.out.println("Terendah        : " + terendah);
+        System.out.println("Di atas rata2   : " + diAtasRataRata + " orang");
+
     }
 }
