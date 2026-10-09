@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Locale;
+import java.util.Collections;
 
 public class StatistikNilai {
     static final int SELESAI = -1;
@@ -27,9 +28,6 @@ public class StatistikNilai {
             }
             daftar.add(nilai);
         } while (nilai != SELESAI);
-
-        System.out.println();
-        System.out.println("Nilai tersimpan : " + daftar);
 
         // Kasus tidak ada nilai sah: cetak pesan, bukan error.
         // Harus dicek sebelum daftar.get(0) di bawah, karena get(0) pada daftar kosong error.
@@ -76,6 +74,41 @@ public class StatistikNilai {
         System.out.println("Tertinggi       : " + tertinggi);
         System.out.println("Terendah        : " + terendah);
         System.out.println("Di atas rata2   : " + diAtasRataRata + " orang");
+
+        // Distribusi grade disimpan di array int[5]. Index = nomor grade:
+        // 0 = A (>= 90), 1 = B (>= 80), 2 = C (>= 70), 3 = D (>= 60), 4 = E (< 60)
+        int[] jumlahGrade = new int[5];
+        for (int n : daftar) {
+            if (n >= 90) {
+                jumlahGrade[0]++;
+            } else if (n >= 80) {
+                jumlahGrade[1]++;
+            } else if (n >= 70) {
+                jumlahGrade[2]++;
+            } else if (n >= 60) {
+                jumlahGrade[3]++;
+            } else {
+                jumlahGrade[4]++;
+            }
+        }
+
+        // Daftar terurut dibuat dari salinan, supaya daftar asli tidak ikut terurut
+        ArrayList<Integer> terurut = new ArrayList<>(daftar);
+        Collections.sort(terurut);
+
+        // Cetak distribusi dengan loop, bukan lima baris println
+        String[] namaGrade = {"A", "B", "C", "D", "E"};
+        System.out.print("Distribusi      : ");
+        for (int i = 0; i < jumlahGrade.length; i++) {
+            System.out.print(namaGrade[i] + "=" + jumlahGrade[i]);
+            if (i < jumlahGrade.length - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println();
+
+        System.out.println("Terurut         : " + terurut);
+        System.out.println("Urutan asli     : " + daftar);
 
     }
 }
